@@ -8,11 +8,20 @@
 ## Getting started
  To play the game click and try to match two cards. When you do that, the timer starts.
 ## Technologies used
- * HTML
- * CSS
- * JAVASCRIPT
- * icons that used in project from [FontAwesome](https://fontawesome.com/)
-
+ * HTML and HTML5
+ * CSS and CSS3
+ * JAVASCRIPT and ES6
+## Project-Dependencies
+ * Icons that used in project from fontawesome.com
+  ```
+    <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/v4-shims.css">
+  ```
+ * Google Fonts
+  ```
+  <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Coda">
+  ```
 ## Rules of the game
  The game board consists of sixteen "cards" arranged in a grid. The deck is made up of eight different pairs of cards, each with different symbols on one side. The cards are arranged randomly on the grid with the symbol face down. The gameplay rules are very simple: flip over two hidden cards at a time to locate the ones that match!
 
