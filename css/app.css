@@ -1,0 +1,729 @@
+html {
+    box-sizing: border-box;
+}
+
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    /* Background pattern from Subtle Patterns */
+    background: #fff url("../img/geometry2.png");
+    font-family: Sans-serif, "Coda", cursive;
+}
+
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+h1 {
+    font: 200 1.5em "open sans", sans-serif;
+}
+
+
+/* Styles for the deck of cards */
+.deck {
+    width: 85%;
+    max-width: 800px;
+    height: auto;
+    min-height: 340px;
+    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 3em;
+}
+
+
+/* Styles for cards */
+.deck .card {
+    height: 60px;
+    width: 60px;
+    margin: 4px 4px;
+    background: #2e3d49;
+    font-size: 0;
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+}
+
+
+/* Styles for openned cards */
+.deck .card.open {
+    transform: rotateY(0);
+    background: #02b3e4;
+    cursor: default;
+    /*animation shortHand
+    animation: name duration timing-function delay iteration-count direction; */
+    -webkit-animation: click-card 0.5s ease-in-out 1 normal;
+    animation: click-card 0.5s ease-in-out 1 normal;
+}
+
+
+.deck .card.show {
+    font-size: 1em;
+}
+
+
+/* Styles for matched cards */
+.deck .card.match {
+    cursor: default;
+    background: #02ccba;
+    font-size: 1em;
+    /*animation shortHand
+    animation: name duration timing-function delay iteration-count direction; */
+    -webkit-animation: card-match 0.5s ease-in-out 1 normal;
+    animation: card-match 0.5s ease-in-out 1 normal;
+}
+
+
+/* Styles for un-matched cards */
+.deck .card.unmatch {
+    background: tomato;
+  /*animation shortHand
+    animation: name duration timing-function delay iteration-count direction; */
+    -webkit-animation: card-unmatch 0.5s ease-in-out 1 normal;
+    animation: card-unmatch 0.5s ease-in-out 1 normal;
+}
+
+
+/* Styles for the Score Panel */
+.score-panel {
+    font-size: 0.8em;
+    text-align: left;
+    width: 80%;
+    max-width: 600px;
+    margin: 0 0 30px 0 ;
+    padding: 10px;
+    border : 1px solid #21bebe;
+    border-radius: 10px;
+    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+}
+
+
+.score-panel .stars {
+    margin: 0 20px 0 0;
+    padding: 0;
+    display: inline-block;
+    color: #ff7504;
+}
+
+
+.score-panel .stars li {
+    list-style: none;
+    display: inline-block;
+}
+
+
+.score-panel span {
+    margin: 10px 20px 10px 0;
+}
+
+
+.score-panel .restart,
+.score-panel .show-leaderboard {
+    float: right;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+
+.show-leaderboard .tooltiptext {
+  visibility: hidden;
+  /*width: 120px;*/
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  font-size: 0.8em;
+  margin: 10px 10px 0 0;
+  /* Position the tooltip */
+  top: 80px;
+  position: absolute;
+  z-index: 1;
+}
+
+
+/* Styles for LeaderBoard Pop-UP */
+#leaderboard {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto;
+}
+
+
+.leaderboard-content {
+    position: relative;
+    background-color: #000;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #888;
+    width: 100%;
+    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+}
+
+
+.leaderboard-header {
+    position: relative;
+    color: #fff;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    text-decoration: underline;
+    font-size: 1em;
+    margin: 0 20px 20px 0;
+}
+
+
+.leaderboard-header .fas {
+    display: inline;
+    float: left;
+    margin: 0 20px 20px;
+    font-size: 1em;
+}
+
+
+table {
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+    font-size: 1.5em;
+    color: #fff;
+}
+
+
+th {
+    background-color: #aaa8a9;
+    text-shadow: 5px 5px 5px #aaa8a9;
+    border-bottom: 5px solid #444;
+    border-top-right-radius: 5px;
+}
+
+
+th,
+td {
+    text-align: center;
+    padding: 16px;
+}
+
+
+tr:nth-child(even) {
+    background-color: #2c2c2c;
+}
+
+
+tr:hover {
+    background-color: #fbb40e;
+    color:#946601;
+    cursor: pointer;
+}
+
+
+/* The Close Button */
+.close {
+    color: #fff;
+    float: right;
+    font-size: 1em;
+    font-weight: bold;
+    margin: 0 20px 0 0;
+}
+
+
+.close:hover,
+.close:focus,
+.leaderboard-header .fas:hover {
+    color: #aaa;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+/* Styles for Congratulation Pop-UP */
+#modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px;  /*Location of the box */
+    left: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: #fff; /* Fallback color */
+    -webkit-animation: modal 0.5s ease-in-out 1 normal;
+    animation: modal 0.9s ease-in-out 0.1s 1 normal;
+    transition: all 1s ease-in-out 0.5s;
+    font-size: 0.8em;
+}
+
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    margin: auto;
+    padding: 0;
+    text-align: center;
+    width: 60%;
+}
+
+/*modal button*/
+.modal-btn,
+.modal-leaderboard-btn {
+    cursor: default;
+    padding: 10px;
+    width: 130px;
+    margin: 20px;
+    background-color: #20B2AA;
+    color: white;
+    border-radius: 4px;
+    font-size: inherit;
+}
+
+
+.modal-btn:hover,
+.modal-leaderboard-btn:hover {
+    cursor: pointer;
+}
+
+
+.circle-loader {
+    margin: 20px 0px 30px 10px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-left-color: #5cb85c;
+    -webkit-animation: loader-spin 1s infinite linear;
+    animation: loader-spin 1s infinite linear;
+    position: relative;
+    display: inline-block;
+}
+
+
+.circle-loader,
+.circle-loader:after {
+    border-radius: 50%;
+    width: 8em;
+    height: 8em;
+}
+
+
+.load-complete {
+    -webkit-animation: none;
+    animation: none;
+    border-color: #5cb85c;
+    transition: border 1000ms ease-out;
+}
+
+
+.check-mark {
+    display: none;
+}
+
+
+.check-mark.draw:after {
+    -webkit-animation: check-mark 2000ms ease;
+    animation: check-mark 1500ms ease;
+    transform: scaleX(-1) rotate(135deg);
+}
+
+
+.check-mark:after {
+    opacity: 1;
+    height: 4em;
+    width: 2em;
+    transform-origin: left top;
+    border-right: 2px solid #5cb85c;
+    border-top: 2px solid #5cb85c;
+    content: '';
+    left: 2em;
+    top: 4em;
+    position: absolute;
+}
+
+
+/* Animation of Cogartulation pop up */
+@keyframes loader-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+@keyframes check-mark {
+    0% {
+        height: 0;
+        width: 0;
+        opacity: 1;
+    }
+    10% {
+        height: 0;
+        width: 0;
+        opacity: 1;
+    }
+    20% {
+        height: 0;
+        width: 2em;
+        opacity: 1;
+    }
+    40% {
+        height: 4em;
+        width: 2em;
+        opacity: 1;
+    }
+    100% {
+        height: 4em;
+        width: 2em;
+        opacity: 1;
+    }
+}
+
+
+@-webkit-keyframes modal {
+    0% {transform: scale(1);}
+    30% {transform: scale(1);}
+    60% {transform: scale(1.15);}
+    80% {transform: scale(1.1);}
+    100% {transform: scale(1);}
+}
+
+
+@keyframes modal {
+    0% {transform: scale(1);}
+    30% {transform: scale(1);}
+    60% {transform: scale(1.15);}
+    80% {transform: scale(1.1);}
+    100% {transform: scale(1);}
+}
+
+
+/* Add Animation for cards clicks */
+@-webkit-keyframes click-card {
+    0% {transform: rotateY(-20deg);}
+    10% {transform: rotateY(-40deg);}
+    20% {transform: rotateY(-60deg);}
+    30% {transform: rotateY(-80deg);}
+    40% {transform: rotateY(-100deg);}
+    50% {transform: rotateY(-120deg);}
+    60% {transform: rotateY(-140deg);}
+    70% {transform: rotateY(-160deg);}
+    80% {transform: rotateY(-180deg);}
+    90% {transform: rotateY(-180deg);}
+    100% {transform: rotateY(-180deg);}
+}
+
+
+@keyframes click-card {
+    0% {transform: rotateY(180deg);}
+    10% {transform: rotateY(160deg);}
+    20% {transform: rotateY(140deg);}
+    30% {transform: rotateY(120deg);}
+    40% {transform: rotateY(100deg);}
+    50% {transform: rotateY(80deg);}
+    60% {transform: rotateY(70deg);}
+    70% {transform: rotateY(50deg);}
+    80% {transform: rotateY(30deg);}
+    90% {transform: rotateY(15deg);}
+    100% {transform: rotateY(0deg);}
+}
+
+
+/* Add Animation for cards correct guess */
+@-webkit-keyframes card-match {
+    0% {transform: scale(1,1);}
+    10% {transform: scale(1.1,0.9);}
+    20% {transform: scale(1.2,0.8);}
+    30% {transform: scale(1,1);}
+    40% {transform: scale(0.8,1.2);}
+    50% {transform: scale(0.8,1.2);}
+    60% {transform: scale(1,1);}
+    70% {transform: scale(1.1,0.9);}
+    80% {transform: scale(1,1);}
+    90% {transform: scale(0.9,1.1);}
+    100% {transform: scale(1,1);}
+}
+
+
+@keyframes card-match {
+    0% {transform: scale(1,1);}
+    10% {transform: scale(1.1,0.9);}
+    20% {transform: scale(1.2,0.8);}
+    30% {transform: scale(1,1);}
+    40% {transform: scale(0.8,1.2);}
+    50% {transform: scale(0.8,1.2);}
+    60% {transform: scale(1,1);}
+    70% {transform: scale(1.1,0.9);}
+    80% {transform: scale(1,1);}
+    90% {transform: scale(0.9,1.1);}
+    100% {transform: scale(1,1);}
+}
+
+
+/* Add Animation for cards wrong guess */
+@-webkit-keyframes card-unmatch {
+    0% {transform: rotate(-10deg) translateX(-35px);}
+    10% {transform: rotate(-10deg) translateX(-35px);}
+    20% {transform: rotate(0deg) translateX(0px);}
+    30% {transform: rotate(0deg) translateX(0px);}
+    40% {transform: rotate(10deg) translateX(35px);}
+    50% {transform: rotate(10deg) translateX(35px);}
+    60% {transform: rotate(0deg) translateX(0px);}
+    70% {transform: rotate(0deg) translateX(0px);}
+    80% {transform: rotate(-10deg) translateX(-35px);}
+    90% {transform: rotate(-10deg) translateX(-35px);}
+    100% {transform: rotate(0deg) translateX(0px);}
+}
+
+
+@keyframes card-unmatch {
+    0% {transform: rotate(-10deg) translateX(-35px);}
+    10% {transform: rotate(-10deg) translateX(-35px);}
+    20% {transform: rotate(0deg) translateX(0px);}
+    30% {transform: rotate(0deg) translateX(0px);}
+    40% {transform: rotate(10deg) translateX(35px);}
+    50% {transform: rotate(10deg) translateX(35px);}
+    60% {transform: rotate(0deg) translateX(0px);}
+    70% {transform: rotate(0deg) translateX(0px);}
+    80% {transform: rotate(-10deg) translateX(-35px);}
+    90% {transform: rotate(-10deg) translateX(-35px);}
+    100% {transform: rotate(0deg) translateX(0px);}
+}
+
+
+/****** Media queries********/
+@media screen and (max-width: 350px) {
+    .deck {
+        width: 280px;
+        height: 280px;
+    }
+
+
+    .deck .card {
+        height: 48px;
+        width: 48px;
+    }
+
+
+    table {
+        font-size: 0.8em;
+    }
+
+
+    .close {
+        float: right;
+        margin: 0 10px 0 0;
+    }
+
+
+    .score-panel {
+        width: 100%;
+    }
+
+
+    .score-panel span {
+        margin: 5px 10px 5px 0;
+    }
+
+
+    .show-leaderboard .tooltiptext {
+        top: 20px;
+    }
+
+
+    .leaderboard-header {
+        font-size: 0.5em;
+        margin: 0 10px 0 0;
+    }
+}
+
+
+@media screen and (min-width: 351px) and (max-width: 420px) {
+    .deck {
+        width: 310px;
+        height: 310px;
+    }
+
+
+    .deck .card {
+        height: 50px;
+        width: 50px;
+    }
+
+
+    .score-panel {
+        width: 100%;
+    }
+
+
+    .score-panel span {
+        margin: 8px 15px 8px 0;
+    }
+
+
+    .show-leaderboard .tooltiptext {
+        top: 20px;
+    }
+
+
+    table {
+        font-size: 0.8em;
+    }
+
+
+    .close {
+        margin: 0 20px 30px 0;
+
+    }
+
+
+    .leaderboard-header {
+        font-size: 0.8em;
+        margin: 0 20px 30px 0;
+    }
+}
+
+
+@media screen and (min-width: 421px) and (max-width: 550px) {
+    .deck {
+        width: 410px;
+        height: 410px;
+    }
+
+
+    .deck .card {
+        height: 80px;
+        width: 80px;
+    }
+
+
+    .score-panel {
+        width: 350px;
+    }
+}
+
+
+/* Media Query for iPads */
+@media screen and (min-width: 551px) and (max-width: 780px) {
+    .container {
+        font-size: 22px;
+    }
+
+
+    .deck {
+        width: 510px;
+        height: 510px;
+    }
+
+
+    .deck .card {
+        height: 100px;
+        width: 100px;
+    }
+
+
+    .score-panel {
+        width: 450px;
+    }
+
+
+    .show-leaderboard .tooltiptext {
+        top: 50px;
+    }
+
+
+    #modal {
+        font-size: 1em;
+    }
+}
+
+
+/* For Tablets and larger screens
+****************/
+@media (min-width: 781px) {
+    .container {
+        font-size: 33px;
+    }
+
+
+    .deck {
+        width: 660px;
+        height: 680px;
+    }
+
+
+    .deck .card {
+        height: 125px;
+        width: 125px;
+    }
+
+
+    .score-panel {
+        width: 600px;
+    }
+
+
+    .popup {
+        width: 60%;
+    }
+
+
+    #modal {
+        font-size: 1.2em;
+    }
+
+
+    .modal-btn {
+        font-size: 1em;
+        width: 120px;
+    }
+
+
+    .show-leaderboard:hover .tooltiptext {
+        visibility: visible;
+    }
+
+
+    .close {
+        color: #fff;
+        font-size: 3em;
+        margin: 0 50px 30px 0;
+    }
+
+
+    .leaderboard-header .fas {
+        margin: 0 0 50px 50px;
+        font-size: 3em;
+    }
+}
